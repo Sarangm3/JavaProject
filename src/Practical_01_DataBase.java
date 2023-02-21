@@ -19,13 +19,10 @@ public class Practical_01_DataBase {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/db";
     static final String USER = "root";
-    static final String PASS = "SArang3@";
+    static final String PASS = "MyN3wP4ssw0rd";
     public static Connection getConnection() throws Exception {
         Class.forName(JDBC_DRIVER);
-        String url = "jdbc:mysql://localhost:3306/mydatabase"; // Replace with your own database URL
-        String user = "username"; // Replace with your own username
-        String password = "password"; // Replace with your own password
-        return DriverManager.getConnection(url, user, password);
+        return DriverManager.getConnection(DB_URL, USER, PASS);
     }
     static void createTable(Statement stmt){
         try{
