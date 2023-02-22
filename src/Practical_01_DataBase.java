@@ -1,16 +1,12 @@
 import java.sql.*;
 
 class Data{
-    int paperCode
-            ;
+    int subjectCode;
     String subName;
     String paperDetail;
     String url;
-    Data(int paperCode
-            ,String subName,String paperDetail,String url){
-        this.paperCode
-                = paperCode
-        ;
+    Data(int subjectCode,String subName,String paperDetail,String url){
+        this.subjectCode = subjectCode;
         this.subName = subName; this.paperDetail = paperDetail;
         this.url = url;
     }
@@ -27,12 +23,12 @@ public class Practical_01_DataBase {
     static void createTable(Statement stmt){
         try{
             String sql = "CREATE TABLE Papers " +
-                    "(paperCode" +
+                    "(subjectCode" +
                     " INTEGER not NULL, " +
                     " subName VARCHAR(255), " +
                     " paperDetail VARCHAR(255), " +
                     " url VARCHAR(255), " +
-                    " PRIMARY KEY (paperCode" +
+                    " PRIMARY KEY (subjectCode" +
                     "))";
             stmt.executeUpdate(sql);
         }
@@ -43,9 +39,9 @@ public class Practical_01_DataBase {
 
     static void insertPaperDetail(Statement stmt,Data newData){
         try {
-            String sql = "INSERT INTO Papers (paperCode" +
+            String sql = "INSERT INTO Papers (subjectCode" +
                     ", subName, paperDetail, url) " +
-                    "VALUES (" + newData.paperCode
+                    "VALUES (" + newData.subjectCode
                     +
                     ", '" + newData.subName +
                     "', '" + newData.paperDetail +
@@ -58,7 +54,7 @@ public class Practical_01_DataBase {
 
     static ResultSet searchData(Statement stmt){
         try{
-            String sql = "SELECT paperCode" +
+            String sql = "SELECT subjectCode" +
                     ", subName, paperDetail, url FROM Papers";
             ResultSet rs = stmt.executeQuery(sql);
             return rs;
@@ -73,8 +69,8 @@ public class Practical_01_DataBase {
                     "SET subName = '" + updatedData.subName + "', " +
                     "paperDetail = '" + updatedData.paperDetail + "', " +
                     "url = '" + updatedData.url + "' " +
-                    "WHERE paperCode" +
-                    " = " + updatedData.paperCode
+                    "WHERE subjectCode" +
+                    " = " + updatedData.subjectCode
                     ;
             stmt.executeUpdate(sql);
         } catch (Exception e) {
@@ -82,10 +78,10 @@ public class Practical_01_DataBase {
         }
     }
 
-    static void deletePaperDetail(Statement stmt, int paperCode){
+    static void deletePaperDetail(Statement stmt, int subjectCode){
         try {
-            String sql = "DELETE FROM Papers WHERE paperCode" +
-                    " = " + paperCode
+            String sql = "DELETE FROM Papers WHERE subjectCode" +
+                    " = " + subjectCode
                     ;
             stmt.executeUpdate(sql);
         } catch (Exception e) {
@@ -94,15 +90,17 @@ public class Practical_01_DataBase {
     }
 
     static ResultSet searchData(Statement stmt, String searchString){
+        ResultSet rs = null;
         try{
-            String sql = "SELECT subID, subName, paperDetail, url FROM Papers " +
-                    "WHERE subName LIKE '%" + searchString + "%' OR paperDetail LIKE '%" + searchString + "%'";
-            ResultSet rs = stmt.executeQuery(sql);
-            return rs;
+            String sql = "SELECT subjectCode, subName, paperDetail, url FROM Papers " +
+                    "WHERE subjectCode LIKE '%" + searchString +
+                    "%' OR subName LIKE '%" + searchString +
+                    "%' OR paperDetail LIKE '%" + searchString + "%'";
+            rs = stmt.executeQuery(sql);
         } catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return rs;
     }
     static String getSearchResult(ResultSet rs) throws Exception {
         StringBuilder searchResult = new StringBuilder();
@@ -117,6 +115,7 @@ public class Practical_01_DataBase {
     public static void main(String[] args) {
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
 
         try {
 
@@ -128,6 +127,11 @@ public class Practical_01_DataBase {
 
             //Insert data
 //            insertPaperDetail(stmt,new Data(3160714,"DATA MINING","2019_paper","http://example.com/paper"));
+//            insertPaperDetail(stmt,new Data(3160707,"Advance java Programming","2019_paper","http://example.com/paper"));
+//            insertPaperDetail(stmt,new Data(3160002,"Contributor Personality Development Program","2019_paper","http://example.com/paper"));
+//            insertPaperDetail(stmt,new Data(3160704,"THEORY OF COMPUTATION","2019_paper","http://example.com/paper"));
+//            insertPaperDetail(stmt,new Data(3160712,"MICROPROCESSOR AND INTERFACING","2019_paper","http://example.com/paper"));
+//            insertPaperDetail(stmt,new Data(3160717,"DATA VISUALIZATION","2019_paper","http://example.com/paper"));
 
             // Updating paper detail
 //            updatePaperDetail(stmt, new Data(3160714,"DATA MINING","2020_paper","http://example.com/paper"));
@@ -136,7 +140,7 @@ public class Practical_01_DataBase {
 //            deletePaperDetail(stmt, 3160714);
 
             //search from database
-            ResultSet rs = searchData(stmt);
+            rs = searchData(stmt,"");
             // Displaying data
             System.out.println(getSearchResult(rs));
 
@@ -147,6 +151,29 @@ public class Practical_01_DataBase {
             se.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            // close resources
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
     }
 }

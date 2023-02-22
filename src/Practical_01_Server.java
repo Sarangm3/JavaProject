@@ -16,12 +16,12 @@ public class Practical_01_Server extends Practical_01_DataBase {
                 // accept incoming client connection
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected: " + clientSocket.getInetAddress());
+                Connection connection = getConnection();
 
                 // create new thread to handle search request
                 Thread thread = new Thread(() -> {
                     try {
                         // handle search request
-                        Connection connection = getConnection();
                         ResultSet resultSet = searchData(connection.createStatement(), "java");
                         String searchResult = getSearchResult(resultSet);
                         clientSocket.getOutputStream().write(searchResult.getBytes());
