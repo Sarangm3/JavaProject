@@ -20,7 +20,7 @@ public class Practical_01_Server extends Practical_01_DataBase {
 
                 // create new thread to handle search request
                 Thread thread = new Thread(() -> {
-                    try {
+                    try  {
                         // handle search request
                         ResultSet resultSet = searchData(connection.createStatement(), "java");
                         String searchResult = getSearchResult(resultSet);

@@ -134,13 +134,13 @@ public class Practical_01_DataBase {
 //            insertPaperDetail(stmt,new Data(3160717,"DATA VISUALIZATION","2019_paper","http://example.com/paper"));
 
             // Updating paper detail
-//            updatePaperDetail(stmt, new Data(3160714,"DATA MINING","2020_paper","http://example.com/paper"));
+//            updatePaperDetail(stmt, new Data(3160714,"DATA MINING","2021_paper","http://example.com/paper"));
 
             // Deleting paper detail
 //            deletePaperDetail(stmt, 3160714);
 
             //search from database
-            rs = searchData(stmt,"");
+//            rs = searchData(stmt,"");
             // Displaying data
             System.out.println(getSearchResult(rs));
 
