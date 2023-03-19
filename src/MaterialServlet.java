@@ -40,7 +40,13 @@ public class MaterialServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         // Retrieve the user's input
-        int subjectCode = Integer.parseInt(request.getParameter("subjectCode"));
+        String subjectCodeStr = request.getParameter("subjectCode");
+        int subjectCode;
+        if (subjectCodeStr == null || subjectCodeStr.isEmpty()) {
+            subjectCode = 0;
+        } else {
+            subjectCode = Integer.parseInt(subjectCodeStr);
+        }
         String subName = request.getParameter("subName");
         String paperDetail = request.getParameter("paperDetail");
         String url = request.getParameter("url");
