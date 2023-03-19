@@ -10,7 +10,7 @@ public class Practical_02_Client {
             // Send search string to server application
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
-            writer.println("data mining");
+            writer.println("");
 
             // Receive matching results from server application
             InputStream input = socket.getInputStream();

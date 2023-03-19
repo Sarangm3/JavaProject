@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.*;
 import java.sql.*;
 
@@ -22,7 +25,10 @@ public class Practical_01_Server extends Practical_01_DataBase {
                 Thread thread = new Thread(() -> {
                     try  {
                         // handle search request
-                        ResultSet resultSet = searchData(connection.createStatement(), "java");
+                        InputStream input = clientSocket.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+                        ResultSet resultSet = searchData(connection.createStatement(), reader.readLine());
                         String searchResult = getSearchResult(resultSet);
                         clientSocket.getOutputStream().write(searchResult.getBytes());
                         System.out.println("Search result sent to client.");
